@@ -2,14 +2,30 @@ import './CitiesCards.css'
 import Stack from 'react-bootstrap/Stack';
 import Card from 'react-bootstrap/Card';
 // import { useEffect } from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 function CitiesCards(props) {
   const homePageRef = useRef(null)
+
+  const [imagesLoaded, setImagesLoaded] = useState(false)
+  const [loadedImagesId] = useState([])
   
   const imageOnClick = (imageId) => () => {
     props.handleShow()
     props.setSelectedImage(imageId - 1)
+  }
+
+  const imageOnLoad = (index) => () => {
+    loadedImagesId.push(index)
+
+    // Set Loading Spinner Progress
+    props.setLoadingSpinnerTotal(props.images.length)
+    props.setLoadingSpinnerProgress(loadedImagesId.length)
+
+    // Check if all images are loaded
+    if (loadedImagesId.length === props.images.length) {
+      setImagesLoaded(true)
+    }
   }
 
   const getImageCardKeyString = (imageId) => {
@@ -39,6 +55,11 @@ function CitiesCards(props) {
     if (homePageRef !== null && homePageRef.current != null && props.shouldReset) {
       homePageRef.current.scrollIntoView()
       props.setShouldReset(false)
+    }
+
+    // Check if all images are loaded
+    if (imagesLoaded) {
+      props.setShowLoading(false)
     }
   })
 
@@ -83,7 +104,7 @@ landscape and streetscape of the city.
           {jaisalmerImages.map((image, index) => {
               return(
                   <Card ref={image.ref} key={getImageCardKeyString(index)} className='transparent-card' style={{ minWidth: '30rem', width: '30rem', height: '40rem', minHeight: '40rem', border: 'none', backgroundColor: 'transparent' }}>
-                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)}/>
+                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)} onLoad={imageOnLoad(image.id)} />
                     { image.title !== undefined && image.title !== null && image.title !== "" ? <Card.Title className='image-card-title'>{image.title}</Card.Title> : null }
                   </Card>
               )
@@ -121,7 +142,7 @@ stone with wood creates interesting patterns on the walls.
           {naggarImages.map((image, index) => {
               return(
                   <Card ref={image.ref} key={getImageCardKeyString(image.id)} className='transparent-card' style={{ minWidth: '30rem', width: '30rem', height: '40rem', minHeight: '40rem', border: 'none', backgroundColor: 'transparent' }}>
-                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)}/>
+                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)} onLoad={imageOnLoad(image.id)}/>
                     { image.title !== undefined && image.title !== null && image.title !== "" ? <Card.Title className='image-card-title'>{image.title}</Card.Title> : null }
                   </Card>
               )
@@ -149,7 +170,7 @@ witnessing booming infrastructure.
           {newDelhiImages.map((image, index) => {
               return(
                   <Card ref={image.ref} key={getImageCardKeyString(image.id)} className='transparent-card' style={{ minWidth: '30rem', width: '30rem', height: '40rem', minHeight: '40rem', border: 'none', backgroundColor: 'transparent' }}>
-                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)}/>
+                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)} onLoad={imageOnLoad(image.id)}/>
                     { image.title !== undefined && image.title !== null && image.title !== "" ? <Card.Title className='image-card-title'>{image.title}</Card.Title> : null }
                   </Card>
               )
@@ -181,7 +202,7 @@ the form of built heritage.
           {bhopalImages.map((image, index) => {
               return(
                   <Card ref={image.ref} key={getImageCardKeyString(image.id)} className='transparent-card' style={{ minWidth: '30rem', width: '30rem', height: '40rem', minHeight: '40rem', border: 'none', backgroundColor: 'transparent' }}>
-                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)}/>
+                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)} onLoad={imageOnLoad(image.id)}/>
                     { image.title !== undefined && image.title !== null && image.title !== "" ? <Card.Title className='image-card-title'>{image.title}</Card.Title> : null }
                   </Card>
               )
@@ -235,7 +256,7 @@ rather traditional way.
           {gangtokImages.map((image, index) => {
               return(
                   <Card ref={image.ref} key={getImageCardKeyString(image.id)} className='transparent-card' style={{ minWidth: '30rem', width: '30rem', height: '40rem', minHeight: '40rem', border: 'none', backgroundColor: 'transparent' }}>
-                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)}/>
+                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)} onLoad={imageOnLoad(image.id)}/>
                     { image.title !== undefined && image.title !== null && image.title !== "" ? <Card.Title className='image-card-title'>{image.title}</Card.Title> : null }
                   </Card>
               )
@@ -285,7 +306,7 @@ overlap of architectural styles in the region.
           {kochiImages.map((image, index) => {
               return(
                   <Card ref={image.ref} key={getImageCardKeyString(image.id)} className='transparent-card' style={{ minWidth: '30rem', width: '30rem', height: '40rem', minHeight: '40rem', border: 'none', backgroundColor: 'transparent' }}>
-                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)}/>
+                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)} onLoad={imageOnLoad(image.id)}/>
                     { image.title !== undefined && image.title !== null && image.title !== "" ? <Card.Title className='image-card-title'>{image.title}</Card.Title> : null }
                   </Card>
               )

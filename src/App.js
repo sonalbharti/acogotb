@@ -17,6 +17,7 @@ import AlienationImageCards from './AlienationImageCards';
 // import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import CitiesCards from './CitiesCards';
 import { Route, Routes, useLocation } from 'react-router-dom';
+import { Image } from 'react-bootstrap';
 
 function App() {
   const location = useLocation()
@@ -33,7 +34,8 @@ function App() {
   // const [showAlienation, setShowAlienation] = useState(false);
   // const [showCities, setShowCities] = useState(false);
   // const [showAbout, setShowAbout] = useState(false);
-  const [show, setShow] = useState(false);
+  const [showCarousel, setShow] = useState(false);
+  const [showLoading, setShowLoading] = useState(true);
 
   // All images links stored here!
   const [teleportImages] = useState([
@@ -733,12 +735,29 @@ function App() {
     }
   ])
 
+  const [loadingSpinnerImages] = useState([
+    {
+      id: 1,
+      src_web: "https://lh4.googleusercontent.com/dZI8PflZZkOFmdctruR8lUiWLsOyyiBS7VJWomz5X-lAb2tX_4Vs6b_vfDoix15gF40=w100",
+      src: "https://lh4.googleusercontent.com/dZI8PflZZkOFmdctruR8lUiWLsOyyiBS7VJWomz5X-lAb2tX_4Vs6b_vfDoix15gF40=w1000",
+      ref: useRef(null)
+    }
+  ])
+
+  const [loadingSpinnerProgress, setLoadingSpinnerProgress] = useState(0)
+  const [loadingSpinnerTotal, setLoadingSpinnerTotal] = useState(0)
+
+  const getLoadingSpinnerProgress = () => {
+    return Math.round(loadingSpinnerProgress/loadingSpinnerTotal * 100)
+  }
+
   const [carouselImages, setCarouselImages] = useState(teleportImages)
   const [selectedImage, setSelectedImage] = useState(0)
 
   const handleCarouselImageSelect = (selectedIndex, e) => {
     setSelectedImage(selectedIndex);
   };
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   // const homePageRef = useRef(null)
@@ -831,6 +850,7 @@ function App() {
                 // showAlienationPage={showAlienationPage}
                 // showCitiesPage={showCitiesPage}
                 setShouldReset={setShouldReset}
+                setShowLoading={setShowLoading}
                 // goToRef={goToRef} titleRefs={titleRefs} 
                 />
               {/* </Row> */}
@@ -855,6 +875,9 @@ function App() {
                       homePageImages={homePageImages}
                       shouldReset={shouldReset}
                       setShouldReset={setShouldReset}
+                      setShowLoading={setShowLoading}
+                      setLoadingSpinnerProgress={setLoadingSpinnerProgress}
+                      setLoadingSpinnerTotal={setLoadingSpinnerTotal} 
                     />
                   } />
                   <Route path="the-series/teleport" element={
@@ -865,7 +888,10 @@ function App() {
                       handleShow={handleShow} 
                       images={teleportImages} 
                       setSelectedImage={setSelectedImage}
-                      setCarouselImages={setCarouselImages} />
+                      setCarouselImages={setCarouselImages}
+                      setShowLoading={setShowLoading}
+                      setLoadingSpinnerProgress={setLoadingSpinnerProgress}
+                      setLoadingSpinnerTotal={setLoadingSpinnerTotal} />
                   } />
                   <Route path="the-series/rock-paper-scissors" element={
                     <RockPaperScissorImageCards 
@@ -874,7 +900,10 @@ function App() {
                       handleShow={handleShow} 
                       images={rockPaperScissorImages} 
                       setSelectedImage={setSelectedImage} 
-                      setCarouselImages={setCarouselImages}/>
+                      setCarouselImages={setCarouselImages}
+                      setShowLoading={setShowLoading}
+                      setLoadingSpinnerProgress={setLoadingSpinnerProgress}
+                      setLoadingSpinnerTotal={setLoadingSpinnerTotal} />
                   } />
                   <Route path="the-series/home" element={
                     <HomeImageCards 
@@ -883,7 +912,10 @@ function App() {
                       handleShow={handleShow} 
                       images={homeImages} 
                       setSelectedImage={setSelectedImage}
-                      setCarouselImages={setCarouselImages} />
+                      setCarouselImages={setCarouselImages}
+                      setShowLoading={setShowLoading}
+                      setLoadingSpinnerProgress={setLoadingSpinnerProgress}
+                      setLoadingSpinnerTotal={setLoadingSpinnerTotal}  />
                   } />
                   <Route path="the-series/alienation" element={
                     <AlienationImageCards 
@@ -892,7 +924,10 @@ function App() {
                       handleShow={handleShow} 
                       images={alienationImages} 
                       setSelectedImage={setSelectedImage}
-                      setCarouselImages={setCarouselImages} />
+                      setCarouselImages={setCarouselImages}
+                      setShowLoading={setShowLoading}
+                      setLoadingSpinnerProgress={setLoadingSpinnerProgress}
+                      setLoadingSpinnerTotal={setLoadingSpinnerTotal}  />
                   } />
                   <Route path="the-cities" element={
                     <CitiesCards 
@@ -901,7 +936,10 @@ function App() {
                       handleShow={handleShow} 
                       images={citiesImages}
                       setSelectedImage={setSelectedImage}
-                      setCarouselImages={setCarouselImages} />
+                      setCarouselImages={setCarouselImages}
+                      setShowLoading={setShowLoading}
+                      setLoadingSpinnerProgress={setLoadingSpinnerProgress}
+                      setLoadingSpinnerTotal={setLoadingSpinnerTotal}  />
                   } />
                   <Route path="about" element={
                     <AboutCards 
@@ -909,7 +947,10 @@ function App() {
                       setShouldReset={setShouldReset} 
                       handleShow={handleShow} 
                       images={aboutImages} 
-                      setSelectedImage={setSelectedImage}/>
+                      setSelectedImage={setSelectedImage}
+                      setShowLoading={setShowLoading}
+                      setLoadingSpinnerProgress={setLoadingSpinnerProgress}
+                      setLoadingSpinnerTotal={setLoadingSpinnerTotal} />
                   } />
                 </Routes>
                 {/* </CSSTransition>
@@ -948,7 +989,7 @@ function App() {
         </Row>
       </Container>
 
-      <Modal show={show} onHide={handleClose} fullscreen={true} dialogClassName='image-modal transparent-card' contentClassName='transparent-card' backdropClassName='image-viewer-modal-backdrop' centered>
+      <Modal show={showCarousel} onHide={handleClose} fullscreen={true} dialogClassName='image-modal transparent-card' contentClassName='transparent-card' backdropClassName='image-viewer-modal-backdrop' centered>
         <Modal.Header closeButton className='no-border image-viewer-modal-header'>
         </Modal.Header>
         <Modal.Body className='no-border'>
@@ -956,6 +997,12 @@ function App() {
         </Modal.Body>
         <Modal.Footer className='no-border'>
         </Modal.Footer>
+      </Modal>
+
+      <Modal show={showLoading} dialogClassName='transparent-card' contentClassName='transparent-card' backdropClassName='loading-spinner-modal-backdrop' centered>
+        <Modal.Body className='align-self-center'>
+          <Image src={loadingSpinnerImages[0].src_web} />{getLoadingSpinnerProgress()}%
+        </Modal.Body>
       </Modal>
     </div>
   );

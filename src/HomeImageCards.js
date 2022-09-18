@@ -2,16 +2,32 @@ import './HomeImageCards.css'
 import Stack from 'react-bootstrap/Stack';
 import Card from 'react-bootstrap/Card';
 // import { useEffect } from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function HomeImageCards(props) {
   const homePageRef = useRef(null)
   const navigate = useNavigate()
+
+  const [imagesLoaded, setImagesLoaded] = useState(false)
+  const [loadedImagesId] = useState([])
   
   const imageOnClick = (imageId) => () => {
     props.handleShow()
     props.setSelectedImage(imageId - 1)
+  }
+
+  const imageOnLoad = (imageId) => () => {
+    loadedImagesId.push(imageId)
+
+    // Set Loading Spinner Progress
+    props.setLoadingSpinnerTotal(props.images.length)
+    props.setLoadingSpinnerProgress(loadedImagesId.length)
+
+    // Check if all images are loaded
+    if (loadedImagesId.length === props.images.length) {
+      setImagesLoaded(true)
+    }
   }
 
   const getImageCardKeyString = (imageId) => {
@@ -41,6 +57,11 @@ function HomeImageCards(props) {
       homePageRef.current.scrollIntoView()
       props.setShouldReset(false)
     }
+
+    // Check if all images are loaded
+    if (imagesLoaded) {
+      props.setShowLoading(false)
+    }
   })
 
   return (
@@ -57,7 +78,7 @@ This series consist of 10 digitally created conceptual elevations of modern home
           {props.images.map(image => {
               return(
                   <Card ref={image.ref} key={getImageCardKeyString(image.id)} className='transparent-card' style={{ minWidth: 'fit-content', height: '40rem', minHeight: '40rem', border: 'none', backgroundColor: 'transparent' }}>
-                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)}/>
+                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={image.src_web} onClick={imageOnClick(image.id)} onLoad={imageOnLoad(image.id)} />
                     <Card.Title className='image-card-title'>{image.title}</Card.Title>
                   </Card>
               )

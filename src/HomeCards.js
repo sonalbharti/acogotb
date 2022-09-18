@@ -2,12 +2,15 @@ import './HomeCards.css'
 import Stack from 'react-bootstrap/Stack';
 import Card from 'react-bootstrap/Card';
 // import { useEffect } from 'react';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function HomeCards(props) {
   const homePageRef = useRef(null)
   const navigate = useNavigate()
+
+  const [imagesLoaded, setImagesLoaded] = useState(false)
+  const [loadedImagesId] = useState([])
   
   // const imageOnClick = (imageId) => () => {
   //   props.handleShow()
@@ -15,8 +18,22 @@ function HomeCards(props) {
   // }
 
   const imageOnClick = (index) => () => {
+    props.setShowLoading(true)
     navigate(showPagesLinks[index])
     props.setShouldReset(true)
+  }
+
+  const imageOnLoad = (index) => () => {
+    loadedImagesId.push(index)
+
+    // Set Loading Spinner Progress
+    props.setLoadingSpinnerTotal(props.homePageImages.length)
+    props.setLoadingSpinnerProgress(loadedImagesId.length)
+
+    // Check if all images are loaded
+    if (loadedImagesId.length === props.homePageImages.length) {
+      setImagesLoaded(true)
+    }
   }
 
   const getImageCardKeyString = (imageId) => {
@@ -37,6 +54,11 @@ function HomeCards(props) {
     if (homePageRef !== null && homePageRef.current != null && props.shouldReset) {
       homePageRef.current.scrollIntoView()
       props.setShouldReset(false)
+    }
+
+    // Check if all images are loaded
+    if (imagesLoaded) {
+      props.setShowLoading(false)
     }
   })
 
@@ -71,7 +93,7 @@ with the environment and not against it.<br/>
           {props.homePageImages.map((homePageImage, index) => {
               return(
                   <Card ref={homePageImage.imageDetails.ref} key={getImageCardKeyString(index)} className='transparent-card' style={{ minWidth: 'fit-content', height: '40rem', minHeight: '40rem', border: 'none', backgroundColor: 'transparent' }}>
-                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={homePageImage.imageDetails.src_web} onClick={imageOnClick(index)}/>
+                    <Card.Img variant="top" style={{ objectFit: 'cover', height: '100%'}} src={homePageImage.imageDetails.src_web} onClick={imageOnClick(index)} onLoad={imageOnLoad(index)} />
                     <Card.Title className='image-card-title'>{homePageImage.title}</Card.Title>
                   </Card>
               )

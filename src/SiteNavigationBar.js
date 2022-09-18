@@ -28,6 +28,7 @@ function SiteNavigationBar(props) {
     }
 
     const linkOnClick = (linkId) => () => {
+        props.setShowLoading(true)
         navigate(allLinks[linkId])
         props.setShouldReset(true)
     }
