@@ -37,6 +37,7 @@ function TeleportImageCards(props) {
   const nextSeriesLink = "/the-series/rock-paper-scissors"
 
   const onNextClick = () => {
+    props.setShowLoading(true)
     navigate(nextSeriesLink);
     props.setShouldReset(true)
   }

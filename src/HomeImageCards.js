@@ -37,6 +37,7 @@ function HomeImageCards(props) {
   const nextSeriesLink = "/the-series/alienation"
 
   const onNextClick = () => {
+    props.setShowLoading(true)
     navigate(nextSeriesLink);
     props.setShouldReset(true)
   }

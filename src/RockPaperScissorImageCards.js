@@ -37,6 +37,7 @@ function RockPaperScissorImageCards(props) {
   const nextSeriesLink = "/the-series/home"
 
   const onNextClick = () => {
+    props.setShowLoading(true)
     navigate(nextSeriesLink);
     props.setShouldReset(true)
   }

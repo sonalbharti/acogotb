@@ -66,10 +66,10 @@ function HomeCards(props) {
 
   return (
       <Stack ref={props.nodeRef} className="card-stack-full-screen" direction="horizontal" gap={3}>
-          <Card ref={homePageRef} style={{ minWidth: '40rem', width: '40rem', height: '40rem', minHeight: '40rem', border: 'none', backgroundColor: 'transparent'}}>
+          <Card ref={homePageRef} style={{ minWidth: '40rem', width: '40rem', height: 'fit-content', minHeight: 'fit-content', border: 'none', backgroundColor: 'transparent'}}>
             {/* <Card.Img variant="top" style={{ width: '100%'}} src={image.src} onClick={props.handleShow}/> */}
             <Card.Body>
-              <Card.Title className='text-left-align heading-font'><h1>A Castle of <b>Glass</b> on the <b>Beach</b></h1></Card.Title>
+              <Card.Title className='text-left-align heading-font'>A Castle of <b>Glass</b> on the <b>Beach</b></Card.Title>
               <Card.Text className='paragraph-small text-left-align'>
 What is Architecture? Architecture is an art, a science and a practice of designing and constructing buildings, and it is
 everywhere! Architecture is built for several different purposes such as homes, offices, schools, temples, shopping malls,
