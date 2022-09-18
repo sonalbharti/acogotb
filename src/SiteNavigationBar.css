@@ -1,0 +1,17 @@
+.navigation-dropdown > div.dropdown-menu {
+    background-color: transparent;
+    border: none;
+}
+
+.navigation-dropdown-item {
+    font-size: 11px;
+}
+
+.active {
+    background-color: transparent!important;
+    color: #404040!important;
+}
+
+.navigation-bar {
+    background-color: #fafafa;
+}

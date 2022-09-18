@@ -1,0 +1,119 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.transparent-card {
+  border: none;
+  background-color: transparent;
+}
+
+.no-border {
+  border: none;
+}
+
+.height-100 {
+  height: 100%;
+}
+
+.carousel-inner {
+  height: inherit;
+}
+
+/* .crisp-edges-rendering {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+} */
+
+.paragraph-small {
+  font-family: var(--bs-font-sans-serif);
+  font-size: 13px;
+  color: #0000008C;
+}
+
+.text-left-align {
+  text-align: left;
+}
+
+.heading-font {
+  font-family: Helvetica;
+  color: #404040;
+}
+
+.scrollbar-visible {
+  min-width: 101vw;
+}
+
+.images-viewer .carousel-indicators { 
+  visibility: hidden;
+}
+
+.image-caption-tooltip > div.tooltip-inner {
+  text-align: left;
+  font-size: 11px;
+  background-color: #fafafa;
+  color: #404040;
+}
+
+.image-caption-tooltip > div.tooltip-arrow {
+  visibility: hidden;
+}
+
+.image-viewer-modal-header .btn-close {
+  color: #fafafa;
+}
+
+.image-viewer-modal-backdrop {
+  opacity: 0.8!important
+}
+
+.test-enter {
+  opacity: 0;
+}
+
+.test-enter.test-enter-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in;
+}
+
+.test-exit {
+  opacity: 1;
+}
+
+.test-exit.test-exit-active {
+  opacity: 0;
+}
