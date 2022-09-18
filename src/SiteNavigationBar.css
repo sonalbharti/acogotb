@@ -15,3 +15,24 @@
 .navigation-bar {
     background-color: #fafafa;
 }
+
+.home-icon {
+    width: 18px;
+    max-width: 18px;
+    height: 18px;
+    max-width: 18px;
+    margin-left: 11px;
+    cursor: pointer;
+}
+
+.push-right {
+    margin-left: auto;
+}
+
+.navbar-home-icon {
+    margin-left: 1rem;
+}
+
+.right-padding {
+    padding-right: 1rem;
+}
